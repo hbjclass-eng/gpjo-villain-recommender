@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>디즈니 악당 빅데이터 테스트(급조)</title>
+<title>디즈니 악당 빅데이터 테스트</title>
+
 <style>
   * { box-sizing: border-box; }
+
   body {
     margin: 0;
     font-family: "Noto Sans KR", Arial, sans-serif;
@@ -13,84 +15,288 @@
     color: #f5f3f8;
     min-height: 100vh;
   }
-  .container { max-width: 900px; margin: auto; padding: 36px 20px 60px; }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 36px 20px 60px;
+  }
+
   .hero {
-    text-align: center; padding: 30px 20px; margin-bottom: 24px;
-    background: rgba(255,255,255,.08); border-radius: 24px;
+    text-align: center;
+    padding: 30px 20px;
+    margin-bottom: 24px;
+    background: rgba(255,255,255,.08);
+    border-radius: 24px;
     border: 1px solid rgba(255,255,255,.12);
   }
-  h1 { margin: 0 0 10px; font-size: 2.2rem; }
-  .subtitle { color: #cfc9db; margin: 0; line-height: 1.6; }
+
+  h1 {
+    margin: 0 0 10px;
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    color: #cfc9db;
+    margin: 0;
+    line-height: 1.6;
+  }
+
   .progress-wrap {
-    position: sticky; top: 0; z-index: 5; padding: 12px 0;
-    background: rgba(21,21,34,.94); backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding: 12px 0;
+    background: rgba(21,21,34,.94);
+    backdrop-filter: blur(8px);
   }
+
   .progress {
-    height: 10px; background: #494255; border-radius: 99px; overflow: hidden;
+    height: 10px;
+    background: #494255;
+    border-radius: 99px;
+    overflow: hidden;
   }
-  .progress-bar { height: 100%; width: 0%; background: #d7a8ff; transition: width .25s; }
-  .progress-text { font-size: .9rem; color: #cfc9db; margin-top: 7px; text-align: right; }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #d7a8ff;
+    transition: width .25s;
+  }
+
+  .progress-text {
+    font-size: .9rem;
+    color: #cfc9db;
+    margin-top: 7px;
+    text-align: right;
+  }
+
   .question {
-    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
-    border-radius: 18px; padding: 22px; margin: 16px 0;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+    padding: 22px;
+    margin: 16px 0;
   }
-  .q-title { font-weight: 700; line-height: 1.55; margin-bottom: 15px; }
-  .axis { color: #d7a8ff; font-size: .82rem; margin-bottom: 12px; }
-  .scale { display: grid; grid-template-columns: repeat(8, 1fr); gap: 7px; }
+
+  .q-title {
+    font-weight: 700;
+    line-height: 1.55;
+    margin-bottom: 15px;
+  }
+
+  /* 1~7점이므로 7칸 */
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 7px;
+  }
+
   .score {
-    border: 1px solid #665d73; background: #2a2633; color: #f5f3f8;
-    border-radius: 10px; padding: 11px 5px; cursor: pointer; font-weight: 700;
+    border: 1px solid #665d73;
+    background: #2a2633;
+    color: #f5f3f8;
+    border-radius: 10px;
+    padding: 11px 5px;
+    cursor: pointer;
+    font-weight: 700;
     transition: .15s;
   }
-  .score:hover { transform: translateY(-2px); border-color: #d7a8ff; }
-  .score.selected { background: #d7a8ff; color: #21182b; border-color: #d7a8ff; }
+
+  .score:hover {
+    transform: translateY(-2px);
+    border-color: #d7a8ff;
+  }
+
+  .score.selected {
+    background: #d7a8ff;
+    color: #21182b;
+    border-color: #d7a8ff;
+  }
+
   .scale-labels {
-    display: flex; justify-content: space-between; font-size: .75rem;
-    color: #aaa2b6; margin-top: 7px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: .75rem;
+    color: #aaa2b6;
+    margin-top: 7px;
   }
-  .actions { text-align: center; margin-top: 28px; }
+
+  .actions {
+    text-align: center;
+    margin-top: 28px;
+  }
+
   button.main {
-    border: 0; border-radius: 14px; padding: 15px 28px; font-size: 1rem;
-    font-weight: 800; cursor: pointer; background: #d7a8ff; color: #21182b;
+    border: 0;
+    border-radius: 14px;
+    padding: 15px 28px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    background: #d7a8ff;
+    color: #21182b;
   }
-  button.main:hover { filter: brightness(1.08); }
-  .error { color: #ffb8b8; margin-top: 12px; display: none; }
-  #result { display: none; }
+
+  button.main:hover {
+    filter: brightness(1.08);
+  }
+
+  .error {
+    color: #ffb8b8;
+    margin-top: 12px;
+    display: none;
+  }
+
+  #result {
+    display: none;
+  }
+
   .result-card {
-    background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.13);
-    border-radius: 24px; padding: 30px; text-align: center; margin-top: 24px;
+    background: rgba(255,255,255,.09);
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 24px;
+    padding: 30px;
+    text-align: center;
+    margin-top: 24px;
   }
-  .winner { font-size: 2.1rem; font-weight: 900; margin: 10px 0; color: #f1cfff; }
-  .nickname { color: #d2cadc; margin-bottom: 20px; }
-  .scores { margin-top: 22px; text-align: left; }
-  .score-row { margin: 13px 0; }
-  .row-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
-  .bar-bg { height: 10px; background: #494255; border-radius: 99px; overflow: hidden; }
-  .bar { height: 100%; background: #d7a8ff; border-radius: 99px; }
-  .ranking { margin-top: 28px; text-align: left; }
+
+  .winner-image {
+    display: none;
+    width: min(280px, 80%);
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: 22px auto 14px;
+    border-radius: 22px;
+    border: 2px solid rgba(215,168,255,.55);
+    box-shadow: 0 12px 30px rgba(0,0,0,.3);
+  }
+
+  .winner {
+    font-size: 2.1rem;
+    font-weight: 900;
+    margin: 10px 0;
+    color: #f1cfff;
+  }
+
+  .nickname {
+    color: #d2cadc;
+    margin-bottom: 20px;
+  }
+
+  .scores {
+    margin-top: 22px;
+    text-align: left;
+  }
+
+  .score-row {
+    margin: 13px 0;
+  }
+
+  .row-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .bar-bg {
+    height: 10px;
+    background: #494255;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .bar {
+    height: 100%;
+    background: #d7a8ff;
+    border-radius: 99px;
+  }
+
+  .ranking {
+    margin-top: 28px;
+    text-align: left;
+  }
+
   .rank-item {
-    display: flex; justify-content: space-between; padding: 12px 14px;
-    margin: 7px 0; border-radius: 12px; background: rgba(255,255,255,.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin: 7px 0;
+    border-radius: 12px;
+    background: rgba(255,255,255,.06);
   }
+
+  .rank-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rank-image {
+    display: none;
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
   .method {
-    margin-top: 22px; padding: 16px; border-radius: 14px;
-    background: rgba(255,255,255,.05); color: #cfc9db; line-height: 1.65;
+    margin-top: 22px;
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.05);
+    color: #cfc9db;
+    line-height: 1.65;
     font-size: .9rem;
   }
-  .restart { margin-top: 20px; }
+
+  .restart {
+    margin-top: 20px;
+  }
+
   @media (max-width: 600px) {
-    h1 { font-size: 1.7rem; }
-    .container { padding: 22px 12px 40px; }
-    .question { padding: 17px; }
-    .scale { gap: 4px; }
-    .score { padding: 10px 2px; }
+    h1 {
+      font-size: 1.7rem;
+    }
+
+    .container {
+      padding: 22px 12px 40px;
+    }
+
+    .question {
+      padding: 17px;
+    }
+
+    .scale {
+      gap: 4px;
+    }
+
+    .score {
+      padding: 10px 2px;
+    }
+
+    .scale-labels {
+      font-size: .67rem;
+    }
+
+    .result-card {
+      padding: 22px 16px;
+    }
   }
 </style>
 </head>
+
 <body>
+
 <div class="container">
+
   <section class="hero">
-    <h1>🖤 디즈니 악당 빅데이터 테스트(급조)</h1>
+    <h1>🖤 디즈니 악당 빅데이터 테스트</h1>
     <p class="subtitle">
       15개의 질문에 1~7점으로 답하고<br>
       8가지 성격축을 바탕으로 나와 가장 비슷한 디즈니 악당을 찾아보세요.
@@ -98,7 +304,9 @@
   </section>
 
   <div class="progress-wrap">
-    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
     <div class="progress-text" id="progressText">0 / 15 응답</div>
   </div>
 
@@ -111,7 +319,15 @@
 
   <section id="result">
     <div class="result-card">
+
       <div>당신과 가장 유사한 악당은</div>
+
+      <img
+        id="winnerImage"
+        class="winner-image"
+        alt="추천 악당 이미지"
+      >
+
       <div class="winner" id="winner"></div>
       <div class="nickname" id="nickname"></div>
 
@@ -120,14 +336,19 @@
 
       <div class="method">
         <b>판정 방법</b><br>
-        15개 답변을 8개 성격축(경쟁심·목표집착·즉흥성·통제성·계산성·공감성·대담성·감정기복)으로 변환한 뒤,
+        15개 답변을 8개 성격축
+        (경쟁심·목표집착·즉흥성·통제성·계산성·공감성·대담성·감정기복)으로 변환한 뒤,
         각 악당의 성격 벡터와 <b>코사인 유사도</b>를 계산했습니다.
         값이 1에 가까울수록 성향 벡터의 방향이 비슷합니다.
       </div>
 
-      <button class="main restart" onclick="location.reload()">다시 테스트하기</button>
+      <button class="main restart" onclick="location.reload()">
+        다시 테스트하기
+      </button>
+
     </div>
   </section>
+
 </div>
 
 <script>
@@ -150,32 +371,111 @@ const questions = [
 ];
 
 const villains = {
-  "한스":       {nickname:"미소 뒤에 숨은 왕좌", v:[6,6,2,5,6,3,5,2]},
-  "트레메인 부인": {nickname:"신데렐라를 짓누른 계모", v:[5,5,2,6,6,2,2,3]},
-  "후크 선장":   {nickname:"피터 팬의 영원한 숙적", v:[5,3,6,4,3,3,6,6]},
-  "스카":       {nickname:"왕좌를 노린 그림자", v:[6,7,2,6,7,2,4,4]},
-  "마더 고델":   {nickname:"사랑으로 묶은 감옥", v:[3,6,2,7,6,2,3,5]},
-  "자파":       {nickname:"권력을 향한 마법", v:[6,6,3,6,7,2,5,3]},
-  "크루엘라":    {nickname:"광기를 입은 패션가", v:[6,6,7,4,4,2,6,7]},
-  "이블 퀸":     {nickname:"아름다움에 사로잡힌 여왕", v:[7,5,4,6,5,2,4,6]},
-  "우르술라":    {nickname:"욕망을 낚는 바다의 마녀", v:[5,6,5,5,7,3,6,5]},
-  "말레피센트":  {nickname:"저주받은 복수의 요정", v:[3,5,4,4,3,4,6,6]}
+  "한스": {
+    nickname:"미소 뒤에 숨은 왕좌",
+    image:1,
+    v:[6,6,2,5,6,3,5,2]
+  },
+
+  "트레메인 부인": {
+    nickname:"신데렐라를 짓누른 계모",
+    image:2,
+    v:[5,5,2,6,6,2,2,3]
+  },
+
+  "후크 선장": {
+    nickname:"피터 팬의 영원한 숙적",
+    image:3,
+    v:[5,3,6,4,3,3,6,6]
+  },
+
+  "스카": {
+    nickname:"왕좌를 노린 그림자",
+    image:4,
+    v:[6,7,2,6,7,2,4,4]
+  },
+
+  "마더 고델": {
+    nickname:"사랑으로 묶은 감옥",
+    image:5,
+    v:[3,6,2,7,6,2,3,5]
+  },
+
+  "자파": {
+    nickname:"권력을 향한 마법",
+    image:6,
+    v:[6,6,3,6,7,2,5,3]
+  },
+
+  "크루엘라": {
+    nickname:"광기를 입은 패션가",
+    image:7,
+    v:[6,6,7,4,4,2,6,7]
+  },
+
+  "이블 퀸": {
+    nickname:"아름다움에 사로잡힌 여왕",
+    image:8,
+    v:[7,5,4,6,5,2,4,6]
+  },
+
+  "우르술라": {
+    nickname:"욕망을 낚는 바다의 마녀",
+    image:9,
+    v:[5,6,5,5,7,3,6,5]
+  },
+
+  "말레피센트": {
+    nickname:"저주받은 복수의 요정",
+    image:10,
+    v:[3,5,4,4,3,4,6,6]
+  }
 };
 
-const axes = ["경쟁심","목표집착","즉흥성","통제성","계산성","공감성","대담성","감정기복"];
+const axes = [
+  "경쟁심",
+  "목표집착",
+  "즉흥성",
+  "통제성",
+  "계산성",
+  "공감성",
+  "대담성",
+  "감정기복"
+];
+
 const answers = Array(questions.length).fill(null);
 const quiz = document.getElementById("quiz");
 
 questions.forEach((q, i) => {
   const div = document.createElement("section");
   div.className = "question";
+
   div.innerHTML = `
     <div class="q-title">${i+1}. ${q[0]}</div>
+
     <div class="scale">
-      ${Array.from({length:7}, (_,s) => { const score = s + 1; return `<button class="score" data-q="${i}" data-score="${score}">${score}</button>`; }).join("")}
+      ${Array.from({length:7}, (_,s) => {
+        const score = s + 1;
+        return `
+          <button
+            class="score"
+            data-q="${i}"
+            data-score="${score}"
+            type="button"
+          >
+            ${score}
+          </button>
+        `;
+      }).join("")}
     </div>
-    <div class="scale-labels"><span>1 = 전혀 그렇지 않다</span><span>4 = 보통이다</span><span>7 = 매우 그렇다</span></div>
+
+    <div class="scale-labels">
+      <span>1 = 전혀 그렇지 않다</span>
+      <span>4 = 보통이다</span>
+      <span>7 = 매우 그렇다</span>
+    </div>
   `;
+
   quiz.appendChild(div);
 });
 
@@ -183,74 +483,223 @@ document.querySelectorAll(".score").forEach(btn => {
   btn.addEventListener("click", () => {
     const q = Number(btn.dataset.q);
     const score = Number(btn.dataset.score);
+
     answers[q] = score;
-    document.querySelectorAll(`.score[data-q="${q}"]`).forEach(b => b.classList.remove("selected"));
+
+    document
+      .querySelectorAll(`.score[data-q="${q}"]`)
+      .forEach(b => b.classList.remove("selected"));
+
     btn.classList.add("selected");
+
     updateProgress();
   });
 });
 
 function updateProgress() {
   const count = answers.filter(x => x !== null).length;
-  document.getElementById("progressText").textContent = `${count} / 15 응답`;
-  document.getElementById("progressBar").style.width = `${count / 15 * 100}%`;
+
+  document.getElementById("progressText").textContent =
+    `${count} / 15 응답`;
+
+  document.getElementById("progressBar").style.width =
+    `${count / 15 * 100}%`;
 }
 
 function makeUserVector() {
-  const groups = axes.map(axis => []);
+  const groups = axes.map(() => []);
+
   questions.forEach((q, i) => {
     groups[axes.indexOf(q[1])].push(answers[i]);
   });
-  return groups.map(g => g.reduce((a,b) => a+b, 0) / g.length);
+
+  return groups.map(
+    g => g.reduce((a,b) => a+b, 0) / g.length
+  );
 }
 
 function cosine(a,b) {
-  let dot=0, na=0, nb=0;
-  for(let i=0;i<a.length;i++) {
-    dot += a[i]*b[i];
-    na += a[i]*a[i];
-    nb += b[i]*b[i];
+  let dot = 0;
+  let na = 0;
+  let nb = 0;
+
+  for(let i=0; i<a.length; i++) {
+    dot += a[i] * b[i];
+    na += a[i] * a[i];
+    nb += b[i] * b[i];
   }
-  return (na && nb) ? dot / (Math.sqrt(na)*Math.sqrt(nb)) : 0;
+
+  return (na && nb)
+    ? dot / (Math.sqrt(na) * Math.sqrt(nb))
+    : 0;
 }
 
-document.getElementById("resultBtn").addEventListener("click", () => {
-  const error = document.getElementById("error");
-  if (answers.some(x => x === null)) {
-    error.style.display = "block";
-    const first = answers.findIndex(x => x === null);
-    document.querySelectorAll(".question")[first].scrollIntoView({behavior:"smooth", block:"center"});
-    return;
+
+/* 이미지 확장자 자동 탐색 */
+const imageExtensions = [
+  "jpg",
+  "jpeg",
+  "png",
+  "webp",
+  "gif"
+];
+
+function showImage(imgElement, number) {
+  let index = 0;
+
+  function tryNext() {
+    if (index >= imageExtensions.length) {
+      imgElement.style.display = "none";
+      imgElement.onerror = null;
+      return;
+    }
+
+    imgElement.src =
+      `./images/${number}.${imageExtensions[index]}`;
+
+    index++;
   }
-  error.style.display = "none";
 
-  const user = makeUserVector();
-  const ranking = Object.entries(villains)
-    .map(([name,data]) => ({name, nickname:data.nickname, similarity:cosine(user,data.v)}))
-    .sort((a,b)=>b.similarity-a.similarity);
+  imgElement.onload = () => {
+    imgElement.style.display = "block";
+    imgElement.onerror = null;
+  };
 
-  document.getElementById("winner").textContent = ranking[0].name;
-  document.getElementById("nickname").textContent = ranking[0].nickname;
+  imgElement.onerror = tryNext;
 
-  document.getElementById("userAxes").innerHTML =
-    "<h3>나의 8가지 성격축</h3>" +
-    user.map((v,i)=>`
-      <div class="score-row">
-        <div class="row-head"><span>${axes[i]}</span><b>${v.toFixed(1)} / 7</b></div>
-        <div class="bar-bg"><div class="bar" style="width:${v/7*100}%"></div></div>
-      </div>`).join("");
+  tryNext();
+}
 
-  document.getElementById("ranking").innerHTML =
-    "<h3>악당별 코사인 유사도</h3>" +
-    ranking.map((r,i)=>`
-      <div class="rank-item">
-        <span>${i+1}. ${r.name}</span>
-        <b>${r.similarity.toFixed(4)}</b>
-      </div>`).join("");
 
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").scrollIntoView({behavior:"smooth"});
-});
+document
+  .getElementById("resultBtn")
+  .addEventListener("click", () => {
+
+    const error = document.getElementById("error");
+
+    if (answers.some(x => x === null)) {
+      error.style.display = "block";
+
+      const first =
+        answers.findIndex(x => x === null);
+
+      document
+        .querySelectorAll(".question")[first]
+        .scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+
+      return;
+    }
+
+    error.style.display = "none";
+
+    const user = makeUserVector();
+
+    const ranking = Object
+      .entries(villains)
+      .map(([name,data]) => ({
+        name,
+        nickname:data.nickname,
+        image:data.image,
+        similarity:cosine(user,data.v)
+      }))
+      .sort((a,b) =>
+        b.similarity - a.similarity
+      );
+
+    const winner = ranking[0];
+
+    document
+      .getElementById("winner")
+      .textContent = winner.name;
+
+    document
+      .getElementById("nickname")
+      .textContent = winner.nickname;
+
+    const winnerImage =
+      document.getElementById("winnerImage");
+
+    winnerImage.alt =
+      `${winner.name} 이미지`;
+
+    showImage(
+      winnerImage,
+      winner.image
+    );
+
+    document
+      .getElementById("userAxes")
+      .innerHTML =
+      "<h3>나의 8가지 성격축</h3>" +
+      user.map((v,i)=>`
+        <div class="score-row">
+
+          <div class="row-head">
+            <span>${axes[i]}</span>
+            <b>${v.toFixed(1)} / 7</b>
+          </div>
+
+          <div class="bar-bg">
+            <div
+              class="bar"
+              style="width:${v/7*100}%"
+            ></div>
+          </div>
+
+        </div>
+      `).join("");
+
+    document
+      .getElementById("ranking")
+      .innerHTML =
+      "<h3>악당별 코사인 유사도</h3>" +
+      ranking.map((r,i)=>`
+        <div class="rank-item">
+
+          <div class="rank-left">
+            <img
+              class="rank-image"
+              id="rankImage${i}"
+              alt="${r.name} 이미지"
+            >
+
+            <span>
+              ${i+1}. ${r.name}
+            </span>
+          </div>
+
+          <b>
+            ${r.similarity.toFixed(4)}
+          </b>
+
+        </div>
+      `).join("");
+
+    ranking.forEach((r,i) => {
+      const img =
+        document.getElementById(`rankImage${i}`);
+
+      showImage(
+        img,
+        r.image
+      );
+    });
+
+    document
+      .getElementById("result")
+      .style.display = "block";
+
+    document
+      .getElementById("result")
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+  });
 </script>
+
 </body>
 </html>
